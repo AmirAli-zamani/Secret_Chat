@@ -1,0 +1,118 @@
+{% extends 'chat_base.html' %}
+{% load static %}
+{% block title %}ورود به چت | گلبو{% endblock %}
+
+{% block content %}
+<section class="chat-setup-page">
+    <div class="chat-setup-card chat-auth-card">
+
+        <div class="chat-auth-header">
+            <div class="chat-setup-emoji">💬</div>
+            <h1>چت گلبو</h1>
+            <p>وارد شو یا ثبت‌نام کن تا گپ بزنی.</p>
+        </div>
+
+        <div class="chat-tabs">
+            <button type="button" class="chat-tab active" data-tab="login">🔓 ورود</button>
+            <button type="button" class="chat-tab" data-tab="signup">✨ ثبت‌نام</button>
+        </div>
+
+        <!-- ==================== LOGIN FORM ==================== -->
+        <form method="post" action="{% url 'plants:chat_login' %}"
+              class="chat-setup-form chat-tab-panel active" data-panel="login"
+              autocomplete="on">
+            {% csrf_token %}
+
+            <label for="login_username">نام کاربری</label>
+            <input type="text" id="login_username" name="username"
+                   placeholder="نام کاربری‌ت"
+                   maxlength="30" required autofocus
+                   autocomplete="username">
+
+            <label for="login_password">پسورد</label>
+            <input type="password" id="login_password" name="password"
+                   placeholder="پسوردت"
+                   required autocomplete="current-password">
+
+            <div class="chat-setup-actions">
+                <button type="submit" class="btn-primary-chat full-width">
+                    ورود به چت 🚀
+                </button>
+            </div>
+
+            <div class="chat-auth-hint">
+                <a href="{% url 'plants:chat_forgot' %}" class="forgot-link">🔑 پسوردت رو فراموش کردی؟</a>
+            </div>
+        </form>
+
+        <!-- ==================== SIGNUP FORM ==================== -->
+        <form method="post" action="{% url 'plants:chat_signup' %}"
+              class="chat-setup-form chat-tab-panel" data-panel="signup"
+              autocomplete="off">
+            {% csrf_token %}
+
+            <label for="signup_username">نام کاربری (ID)</label>
+            <input type="text" id="signup_username" name="username"
+                   placeholder="مثلاً: ali_gol"
+                   maxlength="30" minlength="2" required
+                   autocomplete="off">
+            <small>۲ تا ۳۰ کاراکتر — فقط حروف، اعداد و _</small>
+
+            <label for="signup_password" style="margin-top:14px">پسورد</label>
+            <input type="password" id="signup_password" name="password"
+                   placeholder="حداقل ۴ کاراکتر"
+                   minlength="4" maxlength="100" required
+                   autocomplete="new-password">
+
+            <label for="signup_password2" style="margin-top:14px">تکرار پسورد</label>
+            <input type="password" id="signup_password2" name="password2"
+                   placeholder="دوباره پسورد رو بنویس"
+                   minlength="4" maxlength="100" required
+                   autocomplete="new-password">
+
+            <label for="signup_security_key" style="margin-top:14px">
+                کلید امنیتی <span style="font-weight:400;color:#9ca3af">(اختیاری ولی توصیه‌شده)</span>
+            </label>
+            <input type="text" id="signup_security_key" name="security_key"
+                   placeholder="مثلاً: اسم اولین معلمم + ۱۲۳"
+                   maxlength="100" autocomplete="off">
+            <small>اگه پسوردت رو فراموش کردی، با این کلید می‌تونی پسورد جدید بذاری</small>
+
+            <div class="chat-setup-actions">
+                <button type="submit" class="btn-primary-chat full-width">
+                    ثبت‌نام و ورود ✨
+                </button>
+            </div>
+        </form>
+
+        <div class="chat-auth-footer">
+            <a href="{% url 'plants:landing' %}">← بازگشت به خانه</a>
+        </div>
+
+    </div>
+</section>
+
+<script>
+(function () {
+    const tabs = document.querySelectorAll('.chat-tab');
+    const panels = document.querySelectorAll('.chat-tab-panel');
+
+    function activate(name) {
+        tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+        panels.forEach(p => {
+            const on = p.dataset.panel === name;
+            p.classList.toggle('active', on);
+            if (on) {
+                const first = p.querySelector('input:not([type=hidden]):not([type=submit])');
+                if (first) setTimeout(() => first.focus(), 50);
+            }
+        });
+    }
+
+    tabs.forEach(t => t.addEventListener('click', () => activate(t.dataset.tab)));
+
+    const hash = window.location.hash.replace('#', '');
+    if (hash === 'signup' || hash === 'login') activate(hash);
+})();
+</script>
+{% endblock %}

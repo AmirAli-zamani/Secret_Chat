@@ -1,0 +1,324 @@
+{% extends 'chat_base.html' %}
+{% load static %}
+{% block title %}چت با {{ peer.username }} | گلبو{% endblock %}
+
+{% block content %}
+<div class="chat-app chat-app-room has-active"
+     data-peer="{{ peer.username }}"
+     data-me="{{ chat_user.username }}"
+     data-last-id="{{ last_msg_id }}">
+
+    <!-- Sidebar -->
+    <aside class="chat-sidebar">
+        <div class="chat-sidebar-head">
+            <a href="{% url 'plants:landing' %}" class="chat-brand">
+                <span>🌿</span>
+                <span>گلبو</span>
+            </a>
+            <form method="post" action="{% url 'plants:chat_logout' %}" class="chat-logout-form">
+                {% csrf_token %}
+                <button type="submit" class="chat-logout-btn" title="خروج از چت">⏻</button>
+            </form>
+        </div>
+
+        <div class="chat-me-bar">
+            <div class="chat-avatar">{{ chat_user.username|first|upper }}</div>
+            <div class="chat-me-info">
+                <div class="chat-me-name">{{ chat_user.username }}</div>
+                <div class="chat-me-status">🟢 آنلاین</div>
+            </div>
+        </div>
+
+        <div class="chat-search">
+            <input type="text" id="chatSearch" placeholder="🔍 جست‌وجو یا ID جدید..." autocomplete="off">
+            <div id="chatSearchResults" class="chat-search-results" hidden></div>
+        </div>
+
+        <div class="chat-peers">
+            {% for item in peers %}
+            <a href="{% url 'plants:chat_room' item.peer.username %}"
+               class="chat-peer-item {% if item.peer.pk == peer.pk %}active{% endif %}">
+                <div class="chat-avatar sm">{{ item.peer.username|first|upper }}</div>
+                <div class="chat-peer-info">
+                    <div class="chat-peer-top">
+                        <span class="chat-peer-name">{{ item.peer.username }}</span>
+                        {% if item.last %}
+                        <span class="chat-peer-time">{{ item.last.created_at|time:"H:i" }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="chat-peer-bottom">
+                        <span class="chat-peer-preview">
+                            {% if item.last %}
+                                {% if item.last.msg_type == 'text' %}{{ item.last.content|truncatechars:35 }}
+                                {% elif item.last.msg_type == 'image' %}🖼️ تصویر
+                                {% elif item.last.msg_type == 'video' %}🎬 ویدیو
+                                {% endif %}
+                            {% else %}شروع گفتگو...{% endif %}
+                        </span>
+                        {% if item.unread and item.peer.pk != peer.pk %}
+                        <span class="chat-unread">{{ item.unread }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            {% empty %}
+            <div class="chat-empty-peers small">
+                <p>هنوز چتی نداری.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="chat-main">
+
+        <header class="chat-header">
+            <a href="{% url 'plants:welcome' %}" class="chat-back">←</a>
+            <div class="chat-avatar sm">{{ peer.username|first|upper }}</div>
+            <div class="chat-header-info">
+                <div class="chat-header-name">{{ peer.username }}</div>
+                <div class="chat-header-status" id="peerStatus">
+                    {% if peer.is_online %}🟢 آنلاین{% else %}⚪ آخرین بازدید: {{ peer.last_seen|timesince }} پیش{% endif %}
+                </div>
+            </div>
+            <div class="chat-header-actions">
+                <button type="button" class="chat-settings-btn" id="openSettings" title="تنظیمات ظاهری">⚙️</button>
+            </div>
+        </header>
+
+        <div class="chat-messages" id="chatMessages">
+            {% for m in messages %}
+            <div class="msg {% if m.sender_id == chat_user.pk %}mine{% else %}theirs{% endif %}" data-id="{{ m.pk }}">
+                <div class="swipe-hint">↩</div>
+                {% if m.reply_to %}
+                <div class="msg-reply" data-reply-to="{{ m.reply_to.pk }}">
+                    <div class="msg-reply-bar"></div>
+                    {% if m.reply_to.msg_type == 'image' and m.reply_to.file %}
+                    <img class="msg-reply-thumb" src="{{ m.reply_to.file.url }}" alt="">
+                    {% endif %}
+                    <div class="msg-reply-body">
+                        <div class="msg-reply-sender">{{ m.reply_to.sender.username }}</div>
+                        <div class="msg-reply-text">
+                            {% if m.reply_to.msg_type == 'text' %}{{ m.reply_to.content|truncatechars:80 }}
+                            {% elif m.reply_to.msg_type == 'image' %}🖼️ تصویر
+                            {% elif m.reply_to.msg_type == 'video' %}🎬 ویدیو
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if m.msg_type == 'text' %}
+                <div class="msg-bubble">{{ m.content }}</div>
+                {% elif m.msg_type == 'image' %}
+                <div class="msg-bubble msg-media">
+                    <a href="{{ m.file.url }}">
+                        <img src="{{ m.file.url }}" alt="تصویر" loading="lazy">
+                    </a>
+                    {% if m.content %}<div class="msg-caption">{{ m.content }}</div>{% endif %}
+                </div>
+                {% elif m.msg_type == 'video' %}
+                <div class="msg-bubble msg-media">
+                    <video controls preload="metadata" src="{{ m.file.url }}"></video>
+                    {% if m.content %}<div class="msg-caption">{{ m.content }}</div>{% endif %}
+                </div>
+                {% endif %}
+                <div class="msg-meta">
+                    <span>{{ m.created_at|time:"H:i" }}</span>
+                    {% if m.sender_id == chat_user.pk %}<span class="msg-tick">✓✓</span>{% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- نشانگر تایپ شناور (همیشه دیدنی) -->
+        <div id="typingFloat" class="typing-float">
+            <span class="typing-indicator"><span></span><span></span><span></span></span>
+            <span id="typingFloatName">در حال تایپ...</span>
+        </div>
+
+        <!-- نوار پیش‌نمایش ریپلای -->
+        <div id="replyBar" class="reply-bar" hidden>
+            <div class="reply-bar-inner">
+                <div class="reply-bar-accent"></div>
+                <div class="reply-bar-content">
+                    <div class="reply-bar-title">
+                        ↩️ پاسخ به <span id="replyBarName">—</span>
+                    </div>
+                    <div class="reply-bar-text" id="replyBarText">—</div>
+                </div>
+                <button type="button" class="reply-bar-close" id="replyCancelBtn" title="لغو">×</button>
+            </div>
+        </div>
+
+        <form class="chat-input-bar" id="chatForm" enctype="multipart/form-data">
+            <label class="chat-attach-btn" title="پیوست فایل">
+                📎
+                <input type="file" id="chatFile" name="file"
+                       accept="image/*,video/*" hidden>
+            </label>
+            <input type="text" id="chatText" name="text"
+                   placeholder="پیام بنویس..." autocomplete="off">
+            <button type="submit" class="chat-send-btn" title="ارسال">➤</button>
+        </form>
+    </main>
+
+</div>
+
+<!-- ============================================================
+     MODAL پیش‌نمایش عکس/ویدیو (سبک تلگرام)
+     ============================================================ -->
+<div id="attachModal" class="attach-modal" hidden>
+    <div class="attach-modal-backdrop" data-close></div>
+    <div class="attach-modal-card" role="dialog" aria-modal="true">
+        <button type="button" class="attach-modal-close" data-close title="بستن">×</button>
+
+        <div class="attach-modal-media" id="attachModalMedia">
+            <!-- اینجا عکس/ویدیو تزریق می‌شه -->
+        </div>
+
+        <div class="attach-modal-caption">
+            <input type="text" id="attachModalCaption"
+                   placeholder="کپشن بنویس... (اختیاری)"
+                   maxlength="500" autocomplete="off">
+            <button type="button" class="attach-modal-send" id="attachModalSend" title="ارسال">
+                ➤
+            </button>
+        </div>
+
+        <div class="attach-modal-hint" id="attachModalHint"></div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     SETTINGS MODAL
+     ============================================================ -->
+<div id="settingsModal" class="settings-modal" hidden>
+    <div class="settings-backdrop" data-close-settings></div>
+    <div class="settings-card" role="dialog" aria-modal="true">
+
+        <div class="settings-header">
+            <h2>⚙️ تنظیمات ظاهری</h2>
+            <button type="button" class="settings-close" data-close-settings title="بستن">×</button>
+        </div>
+
+        <div class="settings-status" id="settingsStatus"></div>
+
+        <div class="settings-body">
+
+            <div class="settings-section">
+                <h3>👤 حساب کاربری</h3>
+
+                <div class="account-info">
+                    <div class="account-user">
+                        <span class="account-label">نام کاربری:</span>
+                        <span class="account-value" id="settingsUsername">—</span>
+                    </div>
+                </div>
+
+                <!-- تغییر پسورد -->
+                <details class="account-details">
+                    <summary>🔐 تغییر پسورد</summary>
+                    <div class="account-form">
+                        <input type="password" id="chgOldPassword" placeholder="پسورد فعلی" autocomplete="current-password">
+                        <input type="password" id="chgNewPassword" placeholder="پسورد جدید" autocomplete="new-password">
+                        <input type="password" id="chgNewPassword2" placeholder="تکرار پسورد جدید" autocomplete="new-password">
+                        <button type="button" class="account-btn" id="chgPasswordBtn">تغییر پسورد</button>
+                    </div>
+                </details>
+
+                <!-- کلید امنیتی -->
+                <details class="account-details">
+                    <summary>🔑 کلید امنیتی (بازیابی پسورد)</summary>
+                    <div class="account-form">
+                        <p class="account-hint" id="securityKeyStatus">هنوز کلیدی تنظیم نکردی.</p>
+                        <input type="password" id="setKeyPassword" placeholder="پسورد فعلی" autocomplete="current-password">
+                        <input type="text" id="setNewKey" placeholder="کلید امنیتی جدید (مثلاً: اسم اولین معلمم + ۱۲۳)" autocomplete="off">
+                        <button type="button" class="account-btn" id="setKeyBtn">ذخیره کلید</button>
+                    </div>
+                </details>
+            </div>
+
+            <div class="settings-section">
+                <h3>🎨 تم رنگی</h3>
+                <div class="theme-grid" id="themeGrid">
+                    <!-- توسط JS پر می‌شه -->
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>🖼️ بکگراند سفارشی</h3>
+                <div class="bg-uploader">
+                    <div class="bg-preview" id="bgPreview">🖼️</div>
+                    <div class="bg-buttons">
+                        <label class="bg-btn">
+                            📁 انتخاب عکس
+                            <input type="file" id="bgFileInput" accept="image/*" hidden>
+                        </label>
+                        <button type="button" class="bg-btn danger" id="bgRemoveBtn">
+                            🗑️ حذف بکگراند
+                        </button>
+                    </div>
+                </div>
+                <small class="bg-hint">حداکثر ۸ مگابایت — فرمت‌های JPG، PNG، WebP، GIF</small>
+
+                <div class="opacity-control">
+                    <label for="bgOpacity">شفافیت پرده:</label>
+                    <input type="range" id="bgOpacity" min="0" max="80" value="25" step="5">
+                    <span id="bgOpacityVal">25%</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/chat_settings.js' %}" defer></script>
+
+<!-- ============================================================
+     BOTTOM SHEET (منوی موبایل — سبک تلگرام)
+     ============================================================ -->
+<div id="msgSheet" class="msg-sheet" hidden>
+    <div class="msg-sheet-backdrop" data-sheet-close></div>
+    <div class="msg-sheet-card">
+
+        <div class="msg-sheet-handle"></div>
+
+        <div class="msg-sheet-preview" id="sheetPreview">
+            <div class="msg-sheet-preview-sender" id="sheetPreviewSender">—</div>
+            <div class="msg-sheet-preview-text" id="sheetPreviewText">—</div>
+        </div>
+
+        <div class="msg-sheet-actions">
+            <button type="button" class="msg-sheet-item" data-action="reply">
+                <span class="msg-sheet-icon">↩️</span>
+                <span class="msg-sheet-label">پاسخ</span>
+            </button>
+            <button type="button" class="msg-sheet-item" data-action="copy">
+                <span class="msg-sheet-icon">📋</span>
+                <span class="msg-sheet-label">کپی</span>
+            </button>
+        </div>
+
+        <button type="button" class="msg-sheet-cancel" data-sheet-close>
+            انصراف
+        </button>
+
+    </div>
+</div>
+
+<!-- منوی عملیات پیام (right-click / long-press) -->
+<div id="msgMenu" class="msg-menu" hidden>
+    <button type="button" class="msg-menu-item" data-action="reply">
+        <span class="msg-menu-icon">↩️</span>
+        <span>پاسخ</span>
+    </button>
+    <button type="button" class="msg-menu-item" data-action="copy">
+        <span class="msg-menu-icon">📋</span>
+        <span>کپی متن</span>
+    </button>
+</div>
+
+<script src="{% static 'js/chat.js' %}" defer></script>
+{% endblock %}

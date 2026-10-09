@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="{{ chat_user.theme|default:'forest' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>{% block title %}گلبو | چت{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/themes.css' %}">
+    <link rel="preload" href="{% static 'fonts/Vazirmatn-Regular.woff2' %}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{% static 'fonts/Vazirmatn-Bold.woff2' %}" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    </head>
+<body class="chat-body">
+
+    {% if messages %}
+    <div class="chat-messages-global">
+        {% for m in messages %}
+        <div class="chat-alert chat-alert-{{ m.tags }}">{{ m }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+    <!-- Lightbox -->
+    <div id="chatLightbox" class="lightbox" hidden>
+        <button type="button" class="lightbox-close" aria-label="بستن" title="بستن">×</button>
+        <a class="lightbox-download" id="lightboxDownload" download title="دانلود" href="#">⬇️</a>
+        <div class="lightbox-content" id="lightboxContent"></div>
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+    </div>
+
+    <script src="{% static 'js/lightbox.js' %}" defer></script>
+    <script src="{% static 'js/auto_hide_messages.js' %}" defer></script>
+
+</body>
+</html>

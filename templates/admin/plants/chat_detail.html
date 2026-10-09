@@ -1,0 +1,66 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="content-main">
+    <div class="gp-dashboard">
+
+        <div class="gp-dash-hero" style="margin-bottom:20px">
+            <div class="gp-dash-hero-text">
+                <h2>💬 {{ user1.username }} ↔ {{ user2.username }}</h2>
+                <p>{{ messages|length }} پیام بین این دو کاربر</p>
+            </div>
+            <div class="gp-dash-hero-art">💌</div>
+        </div>
+
+        <div class="gp-section">
+            <a href="{% url 'admin:plants_chatmessage_changelist' %}" class="button" style="background:#6b7280">
+                ← بازگشت به لیست گفتگوها
+            </a>
+        </div>
+
+        <div class="gp-section" style="background:#f6fbf3;padding:24px;max-height:70vh;overflow-y:auto">
+            {% if messages %}
+                {% for m in messages %}
+                <div style="display:flex;margin-bottom:12px;
+                            {% if m.sender_id == user1.pk %}justify-content:flex-start{% else %}justify-content:flex-end{% endif %}">
+                    <div style="max-width:62%;
+                                background:{% if m.sender_id == user1.pk %}#fff{% else %}linear-gradient(135deg,#22c55e,#16a34a){% endif %};
+                                color:{% if m.sender_id == user1.pk %}#1f2937{% else %}#fff{% endif %};
+                                padding:10px 14px;border-radius:14px;
+                                box-shadow:0 2px 8px -6px rgba(0,0,0,.15)">
+                        <div style="font-size:.78rem;font-weight:700;
+                                    color:{% if m.sender_id == user1.pk %}#15803d{% else %}#dcfce7{% endif %};
+                                    margin-bottom:4px">
+                            {{ m.sender.username }}
+                        </div>
+
+                        {% if m.msg_type == 'text' %}
+                            <div style="white-space:pre-wrap;line-height:1.5">{{ m.content }}</div>
+                        {% elif m.msg_type == 'image' %}
+                            <a href="{{ m.file.url }}" target="_blank">
+                                <img src="{{ m.file.url }}" style="max-width:260px;border-radius:10px;display:block">
+                            </a>
+                            {% if m.content %}<div style="margin-top:6px">{{ m.content }}</div>{% endif %}
+                        {% elif m.msg_type == 'video' %}
+                            <video controls src="{{ m.file.url }}"
+                                   style="max-width:260px;border-radius:10px"></video>
+                            {% if m.content %}<div style="margin-top:6px">{{ m.content }}</div>{% endif %}
+                        {% endif %}
+
+                        <div style="font-size:.7rem;margin-top:6px;
+                                    color:{% if m.sender_id == user1.pk %}#9ca3af{% else %}#d1fae5{% endif %};
+                                    text-align:left">
+                            {{ m.created_at|date:"Y/m/d H:i" }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="text-align:center;color:#6b7280">پیامی وجود نداره.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

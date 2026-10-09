@@ -1,0 +1,40 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{{ title }} | گلبو{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+<link rel="stylesheet" href="{% static 'admin/css/custom_admin.css' %}">
+{% endblock %}
+
+{% block dark-mode-vars %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <span class="brand-emoji">🌿</span>
+        <span class="brand-text">گلبو</span>
+        <span class="brand-sub">پنل مدیریت</span>
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<script src="{% static 'admin/js/pattern_picker.js' %}" defer></script>
+<script src="{% static 'js/auto_hide_messages.js' %}" defer></script>
+<script>
+    // حذف دکمه‌ی تغییر تم
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.theme-toggle, [class*="theme-toggle"]').forEach(function (el) {
+            el.remove();
+        });
+        document.documentElement.setAttribute('data-theme', 'light');
+        try { localStorage.setItem('theme', 'light'); } catch (e) {}
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}گیاهان | گلبو{% endblock %}
+
+{% block content %}
+<section class="page-head">
+    <div class="container">
+        <h1>🌿 همه‌ی گیاهان</h1>
+        <form method="get" class="search-form">
+            <input type="text" name="q" value="{{ q }}" placeholder="جست‌وجو کن... مثلا سانسوریا">
+            <button class="btn btn-primary" type="submit">جست‌وجو</button>
+        </form>
+    </div>
+</section>
+
+<section class="container">
+    {% if plants %}
+    <div class="plant-grid">
+        {% for plant in plants %}
+        <a href="{{ plant.get_absolute_url }}" class="plant-card">
+            <div class="plant-thumb">
+                {% if plant.image %}<img src="{{ plant.image.url }}" alt="{{ plant.name }}">
+                {% else %}<div class="plant-placeholder">🌿</div>{% endif %}
+            </div>
+            <div class="plant-body">
+                <h3>{{ plant.name }}</h3>
+                {% if plant.scientific_name %}<em>{{ plant.scientific_name }}</em>{% endif %}
+                <p>{{ plant.short_description }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty">گیاهی با این نام پیدا نشد 🌱</p>
+    {% endif %}
+</section>
+{% endblock %}

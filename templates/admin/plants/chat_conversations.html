@@ -1,0 +1,80 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<div id="content-main">
+    <div class="gp-dashboard">
+
+        <div class="gp-dash-hero" style="margin-bottom:20px">
+            <div class="gp-dash-hero-text">
+                <h2>💬 گفتگوها</h2>
+                <p>لیست گفتگوهای بین کاربران چت. روی هر ردیف کلیک کن تا پیام‌ها رو ببینی.</p>
+            </div>
+            <div class="gp-dash-hero-art">💌</div>
+        </div>
+
+        {% if pairs %}
+        <div class="gp-section">
+            <table class="gp-table">
+                <thead>
+                    <tr>
+                        <th>کاربر</th>
+                        <th>طرف گفتگو</th>
+                        <th>آخرین پیام</th>
+                        <th>زمان</th>
+                        <th>تعداد پیام</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in pairs %}
+                    <tr>
+                        <td>
+                            <b style="color:#14532d">{{ p.user1.username }}</b>
+                        </td>
+                        <td>
+                            <b style="color:#14532d">{{ p.user2.username }}</b>
+                        </td>
+                        <td>
+                            {% if p.last.msg_type == 'text' %}
+                                {{ p.last.content|truncatechars:45 }}
+                            {% elif p.last.msg_type == 'image' %}
+                                🖼️ تصویر
+                            {% elif p.last.msg_type == 'video' %}
+                                🎬 ویدیو
+                            {% endif %}
+                        </td>
+                        <td style="color:#6b7280;white-space:nowrap">
+                            {{ p.last.created_at|date:"Y/m/d H:i" }}
+                        </td>
+                        <td>
+                            <span class="gp-badge gp-badge-green">{{ p.total }}</span>
+                        </td>
+                        <td>
+                            <a href="{% url 'admin:plants_chatmessage_conversation' p.user1.pk p.user2.pk %}"
+                               class="button" style="padding:6px 14px;font-size:.85rem">
+                                مشاهده 💬
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="gp-empty">
+            <div class="gp-empty-icon">💬</div>
+            <p>هنوز گفتگویی بین کاربران انجام نشده.</p>
+        </div>
+        {% endif %}
+
+        <div class="gp-section" style="text-align:center">
+            <a href="{% url 'admin:plants_chatmessage_changelist' %}?all=1"
+               class="button" style="background:#6b7280">
+                🔍 مشاهده‌ی لیست خام پیام‌ها (حالت پیشرفته)
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

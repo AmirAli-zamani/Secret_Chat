@@ -1,0 +1,509 @@
+/* ============================================================
+   گلبو | سیستم تم رنگی
+   همه‌ی رنگ‌ها با متغیر CSS تعریف شدن → با تغییر data-theme عوض می‌شن
+   ============================================================ */
+
+/* ===== 🌿 تم پیش‌فرض: جنگل ===== */
+:root,
+[data-theme="forest"] {
+    --chat-bg: #f6fbf3;
+    --chat-bg-pattern-1: rgba(34, 197, 94, 0.05);
+    --chat-bg-pattern-2: rgba(34, 197, 94, 0.05);
+
+    --sidebar-bg: #ffffff;
+    --sidebar-border: #e7f0e4;
+    --sidebar-head-bg: linear-gradient(135deg, #14532d, #15803d);
+    --sidebar-head-text: #ffffff;
+    --sidebar-peers-bg: #ffffff;
+    --peer-hover: #f0fbf0;
+    --peer-active: #dcfce7;
+    --peer-name: #14532d;
+    --peer-preview: #6b7280;
+    --peer-time: #9ca3af;
+
+    --header-bg: #ffffff;
+    --header-border: #e7f0e4;
+    --header-name: #14532d;
+    --header-status: #6b7280;
+
+    --bubble-mine-bg: linear-gradient(135deg, #22c55e, #16a34a);
+    --bubble-mine-text: #ffffff;
+    --bubble-mine-meta: #d1fae5;
+    --bubble-mine-caption: #ffffff;
+
+    --bubble-theirs-bg: #ffffff;
+    --bubble-theirs-text: #1f2937;
+    --bubble-theirs-meta: #9ca3af;
+    --bubble-theirs-caption: #1f2937;
+
+    --input-bg: #ffffff;
+    --input-border: #e7f0e4;
+    --input-text: #1f2937;
+    --input-placeholder: #9ca3af;
+    --input-focus: #22c55e;
+
+    --accent: #22c55e;
+    --accent-strong: #16a34a;
+    --accent-soft: #dcfce7;
+    --accent-text: #14532d;
+
+    --avatar-bg: linear-gradient(135deg, #22c55e, #15803d);
+    --avatar-text: #ffffff;
+
+    --send-btn-bg: linear-gradient(135deg, #22c55e, #16a34a);
+    --send-btn-text: #ffffff;
+
+    --attach-bg: #f0fbf0;
+    --attach-text: #15803d;
+    --attach-hover: #dcfce7;
+
+    --scrollbar-thumb: #cbd5c9;
+    --scrollbar-hover: #9ab89a;
+
+    --badge-unread-bg: #22c55e;
+    --badge-unread-text: #ffffff;
+
+    --shadow-soft: 0 4px 14px -8px rgba(0, 0, 0, 0.15);
+    --shadow-bubble: 0 2px 8px -6px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== 🌌 تم نیمه‌شب (Midnight Blue) ===== */
+[data-theme="midnight"] {
+    --chat-bg: #0f172a;
+    --chat-bg-pattern-1: rgba(59, 130, 246, 0.06);
+    --chat-bg-pattern-2: rgba(59, 130, 246, 0.06);
+
+    --sidebar-bg: #1e293b;
+    --sidebar-border: #334155;
+    --sidebar-head-bg: linear-gradient(135deg, #1e3a8a, #1e40af);
+    --sidebar-head-text: #ffffff;
+    --sidebar-peers-bg: #1e293b;
+    --peer-hover: #334155;
+    --peer-active: #1e3a8a;
+    --peer-name: #e2e8f0;
+    --peer-preview: #94a3b8;
+    --peer-time: #64748b;
+
+    --header-bg: #1e293b;
+    --header-border: #334155;
+    --header-name: #e2e8f0;
+    --header-status: #94a3b8;
+
+    --bubble-mine-bg: linear-gradient(135deg, #3b82f6, #2563eb);
+    --bubble-mine-text: #ffffff;
+    --bubble-mine-meta: #bfdbfe;
+    --bubble-mine-caption: #ffffff;
+
+    --bubble-theirs-bg: #334155;
+    --bubble-theirs-text: #e2e8f0;
+    --bubble-theirs-meta: #94a3b8;
+    --bubble-theirs-caption: #e2e8f0;
+
+    --input-bg: #334155;
+    --input-border: #475569;
+    --input-text: #f1f5f9;
+    --input-placeholder: #94a3b8;
+    --input-focus: #3b82f6;
+
+    --accent: #3b82f6;
+    --accent-strong: #2563eb;
+    --accent-soft: #1e3a8a;
+    --accent-text: #ffffff;
+
+    --avatar-bg: linear-gradient(135deg, #3b82f6, #1e40af);
+    --avatar-text: #ffffff;
+
+    --send-btn-bg: linear-gradient(135deg, #3b82f6, #2563eb);
+    --send-btn-text: #ffffff;
+
+    --attach-bg: #334155;
+    --attach-text: #93c5fd;
+    --attach-hover: #475569;
+
+    --scrollbar-thumb: #475569;
+    --scrollbar-hover: #64748b;
+
+    --badge-unread-bg: #3b82f6;
+    --badge-unread-text: #ffffff;
+
+    --shadow-soft: 0 4px 14px -8px rgba(0, 0, 0, 0.5);
+    --shadow-bubble: 0 2px 8px -6px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== 🌸 تم ساکورا (Sakura Pink) ===== */
+[data-theme="sakura"] {
+    --chat-bg: #fdf2f8;
+    --chat-bg-pattern-1: rgba(236, 72, 153, 0.05);
+    --chat-bg-pattern-2: rgba(236, 72, 153, 0.05);
+
+    --sidebar-bg: #ffffff;
+    --sidebar-border: #fbcfe8;
+    --sidebar-head-bg: linear-gradient(135deg, #be185d, #ec4899);
+    --sidebar-head-text: #ffffff;
+    --sidebar-peers-bg: #ffffff;
+    --peer-hover: #fce7f3;
+    --peer-active: #fbcfe8;
+    --peer-name: #831843;
+    --peer-preview: #9d174d;
+    --peer-time: #db2777;
+
+    --header-bg: #ffffff;
+    --header-border: #fbcfe8;
+    --header-name: #831843;
+    --header-status: #9d174d;
+
+    --bubble-mine-bg: linear-gradient(135deg, #ec4899, #db2777);
+    --bubble-mine-text: #ffffff;
+    --bubble-mine-meta: #fce7f3;
+    --bubble-mine-caption: #ffffff;
+
+    --bubble-theirs-bg: #ffffff;
+    --bubble-theirs-text: #831843;
+    --bubble-theirs-meta: #db2777;
+    --bubble-theirs-caption: #831843;
+
+    --input-bg: #ffffff;
+    --input-border: #fbcfe8;
+    --input-text: #831843;
+    --input-placeholder: #db2777;
+    --input-focus: #ec4899;
+
+    --accent: #ec4899;
+    --accent-strong: #db2777;
+    --accent-soft: #fce7f3;
+    --accent-text: #831843;
+
+    --avatar-bg: linear-gradient(135deg, #ec4899, #be185d);
+    --avatar-text: #ffffff;
+
+    --send-btn-bg: linear-gradient(135deg, #ec4899, #db2777);
+    --send-btn-text: #ffffff;
+
+    --attach-bg: #fce7f3;
+    --attach-text: #db2777;
+    --attach-hover: #fbcfe8;
+
+    --scrollbar-thumb: #f9a8d4;
+    --scrollbar-hover: #ec4899;
+
+    --badge-unread-bg: #ec4899;
+    --badge-unread-text: #ffffff;
+
+    --shadow-soft: 0 4px 14px -8px rgba(190, 24, 93, 0.25);
+    --shadow-bubble: 0 2px 8px -6px rgba(190, 24, 93, 0.2);
+}
+
+/* ===== 🌙 تم شفق (Twilight Purple) ===== */
+[data-theme="twilight"] {
+    --chat-bg: #1a1625;
+    --chat-bg-pattern-1: rgba(168, 85, 247, 0.06);
+    --chat-bg-pattern-2: rgba(168, 85, 247, 0.06);
+
+    --sidebar-bg: #251f33;
+    --sidebar-border: #3b3050;
+    --sidebar-head-bg: linear-gradient(135deg, #6b21a8, #7c3aed);
+    --sidebar-head-text: #ffffff;
+    --sidebar-peers-bg: #251f33;
+    --peer-hover: #3b3050;
+    --peer-active: #4c1d95;
+    --peer-name: #ede9fe;
+    --peer-preview: #a78bfa;
+    --peer-time: #7c3aed;
+
+    --header-bg: #251f33;
+    --header-border: #3b3050;
+    --header-name: #ede9fe;
+    --header-status: #a78bfa;
+
+    --bubble-mine-bg: linear-gradient(135deg, #a855f7, #7c3aed);
+    --bubble-mine-text: #ffffff;
+    --bubble-mine-meta: #e9d5ff;
+    --bubble-mine-caption: #ffffff;
+
+    --bubble-theirs-bg: #3b3050;
+    --bubble-theirs-text: #ede9fe;
+    --bubble-theirs-meta: #a78bfa;
+    --bubble-theirs-caption: #ede9fe;
+
+    --input-bg: #3b3050;
+    --input-border: #4c1d95;
+    --input-text: #f3e8ff;
+    --input-placeholder: #a78bfa;
+    --input-focus: #a855f7;
+
+    --accent: #a855f7;
+    --accent-strong: #7c3aed;
+    --accent-soft: #4c1d95;
+    --accent-text: #ffffff;
+
+    --avatar-bg: linear-gradient(135deg, #a855f7, #6b21a8);
+    --avatar-text: #ffffff;
+
+    --send-btn-bg: linear-gradient(135deg, #a855f7, #7c3aed);
+    --send-btn-text: #ffffff;
+
+    --attach-bg: #3b3050;
+    --attach-text: #c4b5fd;
+    --attach-hover: #4c1d95;
+
+    --scrollbar-thumb: #4c1d95;
+    --scrollbar-hover: #7c3aed;
+
+    --badge-unread-bg: #a855f7;
+    --badge-unread-text: #ffffff;
+
+    --shadow-soft: 0 4px 14px -8px rgba(0, 0, 0, 0.55);
+    --shadow-bubble: 0 2px 8px -6px rgba(0, 0, 0, 0.45);
+}
+
+/* ===== 🌅 تم غروب (Sunset Orange) ===== */
+[data-theme="sunset"] {
+    --chat-bg: #fff7ed;
+    --chat-bg-pattern-1: rgba(249, 115, 22, 0.05);
+    --chat-bg-pattern-2: rgba(239, 68, 68, 0.05);
+
+    --sidebar-bg: #ffffff;
+    --sidebar-border: #fed7aa;
+    --sidebar-head-bg: linear-gradient(135deg, #c2410c, #ea580c);
+    --sidebar-head-text: #ffffff;
+    --sidebar-peers-bg: #ffffff;
+    --peer-hover: #ffedd5;
+    --peer-active: #fed7aa;
+    --peer-name: #7c2d12;
+    --peer-preview: #9a3412;
+    --peer-time: #ea580c;
+
+    --header-bg: #ffffff;
+    --header-border: #fed7aa;
+    --header-name: #7c2d12;
+    --header-status: #9a3412;
+
+    --bubble-mine-bg: linear-gradient(135deg, #f97316, #ea580c);
+    --bubble-mine-text: #ffffff;
+    --bubble-mine-meta: #ffedd5;
+    --bubble-mine-caption: #ffffff;
+
+    --bubble-theirs-bg: #ffffff;
+    --bubble-theirs-text: #7c2d12;
+    --bubble-theirs-meta: #ea580c;
+    --bubble-theirs-caption: #7c2d12;
+
+    --input-bg: #ffffff;
+    --input-border: #fed7aa;
+    --input-text: #7c2d12;
+    --input-placeholder: #ea580c;
+    --input-focus: #f97316;
+
+    --accent: #f97316;
+    --accent-strong: #ea580c;
+    --accent-soft: #ffedd5;
+    --accent-text: #7c2d12;
+
+    --avatar-bg: linear-gradient(135deg, #f97316, #c2410c);
+    --avatar-text: #ffffff;
+
+    --send-btn-bg: linear-gradient(135deg, #f97316, #ea580c);
+    --send-btn-text: #ffffff;
+
+    --attach-bg: #ffedd5;
+    --attach-text: #ea580c;
+    --attach-hover: #fed7aa;
+
+    --scrollbar-thumb: #fdba74;
+    --scrollbar-hover: #f97316;
+
+    --badge-unread-bg: #f97316;
+    --badge-unread-text: #ffffff;
+
+    --shadow-soft: 0 4px 14px -8px rgba(194, 65, 12, 0.25);
+    --shadow-bubble: 0 2px 8px -6px rgba(194, 65, 12, 0.2);
+}
+
+/* ===== ☕ تم قهوه (Coffee) ===== */
+[data-theme="coffee"] {
+    --chat-bg: #f5ebe0;
+    --chat-bg-pattern-1: rgba(120, 53, 15, 0.04);
+    --chat-bg-pattern-2: rgba(120, 53, 15, 0.04);
+
+    --sidebar-bg: #faf4ec;
+    --sidebar-border: #e5d4bd;
+    --sidebar-head-bg: linear-gradient(135deg, #451a03, #78350f);
+    --sidebar-head-text: #fef3c7;
+    --sidebar-peers-bg: #faf4ec;
+    --peer-hover: #f0e4d2;
+    --peer-active: #e5d4bd;
+    --peer-name: #451a03;
+    --peer-preview: #78350f;
+    --peer-time: #a16207;
+
+    --header-bg: #faf4ec;
+    --header-border: #e5d4bd;
+    --header-name: #451a03;
+    --header-status: #78350f;
+
+    --bubble-mine-bg: linear-gradient(135deg, #a16207, #78350f);
+    --bubble-mine-text: #fffbeb;
+    --bubble-mine-meta: #fef3c7;
+    --bubble-mine-caption: #fffbeb;
+
+    --bubble-theirs-bg: #ffffff;
+    --bubble-theirs-text: #451a03;
+    --bubble-theirs-meta: #a16207;
+    --bubble-theirs-caption: #451a03;
+
+    --input-bg: #ffffff;
+    --input-border: #e5d4bd;
+    --input-text: #451a03;
+    --input-placeholder: #a16207;
+    --input-focus: #a16207;
+
+    --accent: #a16207;
+    --accent-strong: #78350f;
+    --accent-soft: #fef3c7;
+    --accent-text: #451a03;
+
+    --avatar-bg: linear-gradient(135deg, #a16207, #451a03);
+    --avatar-text: #fffbeb;
+
+    --send-btn-bg: linear-gradient(135deg, #a16207, #78350f);
+    --send-btn-text: #ffffff;
+
+    --attach-bg: #fef3c7;
+    --attach-text: #78350f;
+    --attach-hover: #fde68a;
+
+    --scrollbar-thumb: #d6b88c;
+    --scrollbar-hover: #a16207;
+
+    --badge-unread-bg: #a16207;
+    --badge-unread-text: #ffffff;
+
+    --shadow-soft: 0 4px 14px -8px rgba(69, 26, 3, 0.25);
+    --shadow-bubble: 0 2px 8px -6px rgba(69, 26, 3, 0.2);
+}
+
+/* ===== 🧊 تم یخچال (Arctic) ===== */
+[data-theme="arctic"] {
+    --chat-bg: #ecfeff;
+    --chat-bg-pattern-1: rgba(6, 182, 212, 0.06);
+    --chat-bg-pattern-2: rgba(14, 165, 233, 0.06);
+
+    --sidebar-bg: #ffffff;
+    --sidebar-border: #cffafe;
+    --sidebar-head-bg: linear-gradient(135deg, #155e75, #0891b2);
+    --sidebar-head-text: #ffffff;
+    --sidebar-peers-bg: #ffffff;
+    --peer-hover: #cffafe;
+    --peer-active: #a5f3fc;
+    --peer-name: #164e63;
+    --peer-preview: #0e7490;
+    --peer-time: #06b6d4;
+
+    --header-bg: #ffffff;
+    --header-border: #cffafe;
+    --header-name: #164e63;
+    --header-status: #0e7490;
+
+    --bubble-mine-bg: linear-gradient(135deg, #06b6d4, #0891b2);
+    --bubble-mine-text: #ffffff;
+    --bubble-mine-meta: #cffafe;
+    --bubble-mine-caption: #ffffff;
+
+    --bubble-theirs-bg: #ffffff;
+    --bubble-theirs-text: #164e63;
+    --bubble-theirs-meta: #0891b2;
+    --bubble-theirs-caption: #164e63;
+
+    --input-bg: #ffffff;
+    --input-border: #cffafe;
+    --input-text: #164e63;
+    --input-placeholder: #06b6d4;
+    --input-focus: #06b6d4;
+
+    --accent: #06b6d4;
+    --accent-strong: #0891b2;
+    --accent-soft: #cffafe;
+    --accent-text: #164e63;
+
+    --avatar-bg: linear-gradient(135deg, #06b6d4, #155e75);
+    --avatar-text: #ffffff;
+
+    --send-btn-bg: linear-gradient(135deg, #06b6d4, #0891b2);
+    --send-btn-text: #ffffff;
+
+    --attach-bg: #cffafe;
+    --attach-text: #0891b2;
+    --attach-hover: #a5f3fc;
+
+    --scrollbar-thumb: #a5f3fc;
+    --scrollbar-hover: #06b6d4;
+
+    --badge-unread-bg: #06b6d4;
+    --badge-unread-text: #ffffff;
+
+    --shadow-soft: 0 4px 14px -8px rgba(21, 94, 117, 0.25);
+    --shadow-bubble: 0 2px 8px -6px rgba(21, 94, 117, 0.2);
+}
+
+/* ===== 🖤 تم شبانه (Pure Dark) ===== */
+[data-theme="night"] {
+    --chat-bg: #0a0a0a;
+    --chat-bg-pattern-1: rgba(255, 255, 255, 0.02);
+    --chat-bg-pattern-2: rgba(255, 255, 255, 0.02);
+
+    --sidebar-bg: #171717;
+    --sidebar-border: #262626;
+    --sidebar-head-bg: linear-gradient(135deg, #171717, #262626);
+    --sidebar-head-text: #fafafa;
+    --sidebar-peers-bg: #171717;
+    --peer-hover: #262626;
+    --peer-active: #404040;
+    --peer-name: #fafafa;
+    --peer-preview: #a3a3a3;
+    --peer-time: #737373;
+
+    --header-bg: #171717;
+    --header-border: #262626;
+    --header-name: #fafafa;
+    --header-status: #a3a3a3;
+
+    --bubble-mine-bg: linear-gradient(135deg, #404040, #262626);
+    --bubble-mine-text: #ffffff;
+    --bubble-mine-meta: #d4d4d4;
+    --bubble-mine-caption: #ffffff;
+
+    --bubble-theirs-bg: #262626;
+    --bubble-theirs-text: #fafafa;
+    --bubble-theirs-meta: #a3a3a3;
+    --bubble-theirs-caption: #fafafa;
+
+    --input-bg: #262626;
+    --input-border: #404040;
+    --input-text: #fafafa;
+    --input-placeholder: #a3a3a3;
+    --input-focus: #a3a3a3;
+
+    --accent: #a3a3a3;
+    --accent-strong: #d4d4d4;
+    --accent-soft: #404040;
+    --accent-text: #fafafa;
+
+    --avatar-bg: linear-gradient(135deg, #525252, #262626);
+    --avatar-text: #ffffff;
+
+    --send-btn-bg: linear-gradient(135deg, #525252, #404040);
+    --send-btn-text: #ffffff;
+
+    --attach-bg: #262626;
+    --attach-text: #d4d4d4;
+    --attach-hover: #404040;
+
+    --scrollbar-thumb: #404040;
+    --scrollbar-hover: #525252;
+
+    --badge-unread-bg: #dc2626;
+    --badge-unread-text: #ffffff;
+
+    --shadow-soft: 0 4px 14px -8px rgba(0, 0, 0, 0.8);
+    --shadow-bubble: 0 2px 8px -6px rgba(0, 0, 0, 0.7);
+}

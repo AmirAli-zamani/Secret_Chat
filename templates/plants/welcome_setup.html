@@ -1,0 +1,42 @@
+{% extends 'chat_base.html' %}
+{% load static %}
+{% block title %}ورود به چت | گلبو{% endblock %}
+
+{% block content %}
+<section class="chat-setup-page">
+    <div class="chat-setup-card">
+        <div class="chat-setup-emoji">💬</div>
+        <h1>ورود به چت گلبو</h1>
+        <p>
+            نام کاربری و پسوردت رو وارد کن.<br>
+            <b>اگه کاربر جدیدی، همین‌جا ثبت‌نام می‌شی.</b><br>
+            <b>اگه قبلاً اومدی، همون نام کاربری + پسورد قبلی.</b>
+        </p>
+
+        <form method="post" action="{% url 'plants:chat_setup' %}" class="chat-setup-form" autocomplete="off">
+            {% csrf_token %}
+
+            <label for="id_username">نام کاربری (ID)</label>
+            <input type="text" id="id_username" name="username"
+                   placeholder="مثلاً: ali_gol"
+                   maxlength="30" minlength="2" required autofocus autocomplete="off">
+            <small>۲ تا ۳۰ کاراکتر — فقط حروف، اعداد و _</small>
+
+            <label for="id_password" style="margin-top:16px">پسورد</label>
+            <input type="password" id="id_password" name="password"
+                   placeholder="حداقل ۴ کاراکتر"
+                   minlength="4" maxlength="100" required autocomplete="new-password">
+
+            <label for="id_password2" style="margin-top:12px">تکرار پسورد <span style="font-weight:400;color:#9ca3af">(فقط برای ثبت‌نام جدید)</span></label>
+            <input type="password" id="id_password2" name="password2"
+                   placeholder="اگه کاربر جدیدی، دوباره پسورد رو بنویس"
+                   minlength="4" maxlength="100" autocomplete="new-password">
+
+            <div class="chat-setup-actions">
+                <a href="{% url 'plants:landing' %}" class="btn-back">بازگشت</a>
+                <button type="submit" class="btn-primary-chat">ورود / ثبت‌نام 🚀</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

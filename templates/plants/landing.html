@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block title %}گلبو | دنیای سبز گل و گیاه{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-inner">
+        <div class="hero-text">
+            <span class="hero-badge">🌱 راهنمای کامل گیاهان</span>
+            <h1>دنیای <span>گل و گیاه</span><br>را کشف کن</h1>
+            <p>هرچی از نگهداری، آبیاری و پرورش گیاهان آپارتمانی و گل‌های زیبا لازم داری، اینجا یک‌جا پیدا می‌کنی.</p>
+            <div class="hero-actions">
+                <a href="{% url 'plants:list' %}" class="btn btn-primary">مشاهده گیاهان</a>
+                <a href="#features" class="btn btn-ghost">چرا گلبو؟</a>
+            </div>
+            <div class="hero-stats">
+                <div><strong>{{ total }}+</strong><span>گیاه معرفی‌شده</span></div>
+                <div><strong>۱۰۰٪</strong><span>راهنمای کاربردی</span></div>
+                <div><strong>رایگان</strong><span>برای همه</span></div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="blob"></div>
+            <div class="emoji-grid" id="emojiGrid">
+                <button type="button" class="emoji-btn" data-index="1">🌿</button>
+                <button type="button" class="emoji-btn" data-index="2">🌸</button>
+                <button type="button" class="emoji-btn" data-index="3">🌱</button>
+                <button type="button" class="emoji-btn" data-index="4">🌻</button>
+                <button type="button" class="emoji-btn" data-index="5">🪴</button>
+                <button type="button" class="emoji-btn" data-index="6">🌷</button>
+                <button type="button" class="emoji-btn" data-index="7">🌵</button>
+                <button type="button" class="emoji-btn" data-index="8">🍀</button>
+                <button type="button" class="emoji-btn" data-index="9">🌺</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="features" class="features">
+    <div class="container">
+        <h2 class="section-title">چرا گلبو؟</h2>
+        <p class="section-sub">هر چی برای نگهداری بهتر گیاه‌هات لازم داری، اینجاست.</p>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📖</div>
+                <h3>اطلاعات کامل</h3>
+                <p>نور، آبیاری، دما و خاک هر گیاه رو دقیق و ساده بخون.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🪴</div>
+                <h3>راهنمای نگهداری</h3>
+                <p>نکات عملی که گیاه‌ت همیشه شاداب و سرحال بمونه.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>جست‌وجوی سریع</h3>
+                <p>با یه کلیک گیاه مورد نظرت رو پیدا کن و بشناس.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if featured %}
+<section class="featured">
+    <div class="container">
+        <h2 class="section-title">گیاهان ویژه</h2>
+        <p class="section-sub">محبوب‌ترین گیاهان این هفته</p>
+        <div class="plant-grid">
+            {% for plant in featured %}
+            <a href="{{ plant.get_absolute_url }}" class="plant-card">
+                <div class="plant-thumb">
+                    {% if plant.image %}<img src="{{ plant.image.url }}" alt="{{ plant.name }}">
+                    {% else %}<div class="plant-placeholder">🌿</div>{% endif %}
+                </div>
+                <div class="plant-body">
+                    <h3>{{ plant.name }}</h3>
+                    {% if plant.scientific_name %}<em>{{ plant.scientific_name }}</em>{% endif %}
+                    <p>{{ plant.short_description }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="center">
+            <a href="{% url 'plants:list' %}" class="btn btn-primary">دیدن همه‌ی گیاهان →</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<script>
+(function () {
+    const grid = document.getElementById('emojiGrid');
+    if (!grid) return;
+
+    const buttons = grid.querySelectorAll('.emoji-btn');
+    const badge = document.getElementById('unlockBadge');
+    const commentBtn = document.getElementById('commentBtn');
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
+    const selected = new Set();
+
+    function updateUI(unlocked) {
+        if (unlocked) {
+            badge.hidden = false;
+            if (commentBtn) commentBtn.classList.add('unlocked');
+        } else {
+            badge.hidden = true;
+            if (commentBtn) commentBtn.classList.remove('unlocked');
+        }
+    }
+
+    function sendPattern() {
+        fetch('/api/check-pattern/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrf,
+            },
+            body: JSON.stringify({ sequence: Array.from(selected) }),
+        })
+        .then(r => r.ok ? r.json() : Promise.reject(r.status))
+        .then(data => updateUI(!!data.unlocked))
+        .catch(() => updateUI(false));
+    }
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const n = parseInt(btn.dataset.index, 10);
+            if (selected.has(n)) {
+                selected.delete(n);
+                btn.classList.remove('selected');
+            } else {
+                selected.add(n);
+                btn.classList.add('selected');
+            }
+            sendPattern();
+        });
+    });
+})();
+</script>
+{% endblock %}

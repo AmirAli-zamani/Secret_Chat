@@ -1,0 +1,142 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div id="content-main">
+    <div class="gp-dashboard">
+
+        <div class="gp-dash-hero">
+            <div class="gp-dash-hero-text">
+                <h2>👋 سلام {{ request.user.get_short_name|default:request.user.username }} عزیز!</h2>
+                <p>به پنل مدیریت گلبو خوش آمدی. خلاصه‌ی وضعیت سایت و دسترسی سریع:</p>
+            </div>
+            <div class="gp-dash-hero-art">🌿</div>
+        </div>
+
+        <div class="gp-stat-grid">
+            <div class="gp-stat-card">
+                <div class="gp-stat-icon" style="background:#dcfce7;color:#15803d">🌱</div>
+                <div class="gp-stat-body">
+                    <div class="gp-stat-value">{{ total_plants }}</div>
+                    <div class="gp-stat-label">گیاه ثبت‌شده</div>
+                </div>
+            </div>
+            <div class="gp-stat-card">
+                <div class="gp-stat-icon" style="background:#fef3c7;color:#b45309">⭐</div>
+                <div class="gp-stat-body">
+                    <div class="gp-stat-value">{{ featured_plants }}</div>
+                    <div class="gp-stat-label">گیاه ویژه</div>
+                </div>
+            </div>
+            <div class="gp-stat-card">
+                <div class="gp-stat-icon" style="background:#dbeafe;color:#1d4ed8">👥</div>
+                <div class="gp-stat-body">
+                    <div class="gp-stat-value">{{ total_users }}</div>
+                    <div class="gp-stat-label">کاربر</div>
+                </div>
+            </div>
+            <div class="gp-stat-card">
+                <div class="gp-stat-icon" style="background:#f3e8ff;color:#7c3aed">🔐</div>
+                <div class="gp-stat-body">
+                    <div class="gp-stat-value">{{ total_admins }}</div>
+                    <div class="gp-stat-label">ادمین فعال</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="gp-section">
+            <h3 class="gp-section-title">⚡ دسترسی سریع</h3>
+            <div class="gp-action-grid">
+                <a href="{% url 'admin:plants_plant_add' %}" class="gp-action-card">
+                    <div class="gp-action-icon">➕</div>
+                    <div class="gp-action-info">
+                        <div class="gp-action-title">افزودن گیاه</div>
+                        <div class="gp-action-desc">گیاه جدید با تصویر و مشخصات کامل</div>
+                    </div>
+                </a>
+                <a href="{% url 'admin:plants_plant_changelist' %}" class="gp-action-card">
+                    <div class="gp-action-icon">🌿</div>
+                    <div class="gp-action-info">
+                        <div class="gp-action-title">مدیریت گیاهان</div>
+                        <div class="gp-action-desc">{{ total_plants }} گیاه در سایت</div>
+                    </div>
+                </a>
+                <a href="{% url 'admin:auth_user_add' %}" class="gp-action-card">
+                    <div class="gp-action-icon">👤</div>
+                    <div class="gp-action-info">
+                        <div class="gp-action-title">افزودن کاربر</div>
+                        <div class="gp-action-desc">ساخت کاربر یا ادمین جدید</div>
+                    </div>
+                </a>
+                <a href="{% url 'admin:auth_user_changelist' %}" class="gp-action-card">
+                    <div class="gp-action-icon">👥</div>
+                    <div class="gp-action-info">
+                        <div class="gp-action-title">مدیریت کاربران</div>
+                        <div class="gp-action-desc">{{ total_users }} کاربر ثبت‌شده</div>
+                    </div>
+                </a>
+                <a href="{% url 'admin:plants_adminpattern_changelist' %}" class="gp-action-card">
+                    <div class="gp-action-icon">🔐</div>
+                    <div class="gp-action-info">
+                        <div class="gp-action-title">الگوهای امنیتی</div>
+                        <div class="gp-action-desc">{{ total_patterns }} الگو فعال</div>
+                    </div>
+                </a>
+                <a href="/" target="_blank" class="gp-action-card">
+                    <div class="gp-action-icon">🌍</div>
+                    <div class="gp-action-info">
+                        <div class="gp-action-title">مشاهده سایت</div>
+                        <div class="gp-action-desc">رفتن به صفحه اصلی گلبو</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="gp-section">
+            <h3 class="gp-section-title">🕒 آخرین گیاهان اضافه‌شده</h3>
+            {% if recent_plants %}
+            <div class="gp-table-wrap">
+                <table class="gp-table">
+                    <thead>
+                        <tr>
+                            <th>تصویر</th>
+                            <th>نام</th>
+                            <th>نام علمی</th>
+                            <th>سطح</th>
+                            <th>ویژه</th>
+                            <th>تاریخ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in recent_plants %}
+                        <tr>
+                            <td>
+                                {% if p.image %}
+                                <img src="{{ p.image.url }}" class="gp-row-thumb" />
+                                {% else %}
+                                <div class="gp-row-thumb gp-row-thumb-empty">🌿</div>
+                                {% endif %}
+                            </td>
+                            <td><a href="{% url 'admin:plants_plant_change' p.pk %}">{{ p.name }}</a></td>
+                            <td><em>{{ p.scientific_name|default:"—" }}</em></td>
+                            <td>{{ p.difficulty|default:"—" }}</td>
+                            <td>{% if p.is_featured %}✅{% else %}<span class="gp-muted">—</span>{% endif %}</td>
+                            <td>{{ p.created_at|date:"Y/m/d" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="gp-empty">
+                <div class="gp-empty-icon">🌱</div>
+                <p>هنوز گیاهی اضافه نشده. از دسترسی سریع بالای صفحه شروع کن!</p>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block sidebar %}{% endblock %}

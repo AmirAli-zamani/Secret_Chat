@@ -1,0 +1,55 @@
+{% extends 'chat_base.html' %}
+{% load static %}
+{% block title %}چت | گلبو{% endblock %}
+
+{% block content %}
+<div class="chat-app chat-app-list"
+     data-me="{{ chat_user.username }}"
+     data-current-page="list">
+
+    <!-- Sidebar -->
+    <aside class="chat-sidebar">
+
+        <div class="chat-sidebar-head">
+            <a href="{% url 'plants:landing' %}" class="chat-brand">
+                <span>🌿</span>
+                <span>گلبو</span>
+            </a>
+            <form method="post" action="{% url 'plants:chat_logout' %}" class="chat-logout-form">
+                {% csrf_token %}
+                <button type="submit" class="chat-logout-btn" title="خروج از چت">⏻</button>
+            </form>
+        </div>
+
+        <div class="chat-me-bar">
+            <div class="chat-avatar">{{ chat_user.username|first|upper }}</div>
+            <div class="chat-me-info">
+                <div class="chat-me-name">{{ chat_user.username }}</div>
+                <div class="chat-me-status">🟢 آنلاین</div>
+            </div>
+        </div>
+
+        <div class="chat-search">
+            <input type="text" id="chatSearch" placeholder="🔍 جست‌وجو یا ID جدید..." autocomplete="off">
+            <div id="chatSearchResults" class="chat-search-results" hidden></div>
+        </div>
+
+        <div class="chat-peers" id="chatPeers">
+            {% include 'plants/_peer_list.html' with peers=peers %}
+        </div>
+    </aside>
+
+    <!-- Empty State -->
+    <main class="chat-main chat-main-empty">
+        <div class="chat-placeholder">
+            <div class="chat-placeholder-icon">💌</div>
+            <h2>چت گلبو</h2>
+            <p>یه چت رو از لیست انتخاب کن، یا توی کادر بالا یه ID وارد کن تا شروع کنی.</p>
+        </div>
+    </main>
+
+</div>
+
+<script src="{% static 'js/chat_search.js' %}" defer></script>
+<script src="{% static 'js/chat_list_poll.js' %}" defer></script>
+{% endblock %}

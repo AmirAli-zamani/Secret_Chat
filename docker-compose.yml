@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    container_name: flower_site
+    command: python manage.py runserver 0.0.0.0:5050
+    volumes:
+      - .:/app
+    ports:
+      - "5050:5050"
+    environment:
+      - PYTHONUNBUFFERED=1
+    user: "${UID:-1000}:${GID:-1000}"
+    restart: unless-stopped

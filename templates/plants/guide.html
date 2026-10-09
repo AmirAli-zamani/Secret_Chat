@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}راهنما | گلبو{% endblock %}
+
+{% block content %}
+<section class="guide-page">
+    <div class="container">
+
+        <div class="guide-hero">
+            <div class="guide-emoji">📖</div>
+            <h1>راهنمای استفاده از گلبو</h1>
+            <p>هرچی برای استفاده از سایت و چت لازم داری، اینجا مرحله‌به‌مرحله توضیح داده شده.</p>
+        </div>
+
+        <!-- ۱ -->
+        <div class="guide-section">
+            <div class="guide-section-head">
+                <span class="guide-number">۱</span>
+                <h2>🔓 ورود به چت</h2>
+            </div>
+            <p>برای ورود به چت باید ابتدا الگوی امنیتی را در صفحه‌ی اصلی وارد کنی.</p>
+            <ol>
+                <li>به <a href="{% url 'plants:landing' %}">صفحه‌ی اصلی</a> برو</li>
+                <li>در بخش قهرمان، ۹ دکمه‌ی ایموجی می‌بینی</li>
+                <li>الگوی درست را روی آن‌ها کلیک کن (مدیر سایت آن را تنظیم می‌کند)</li>
+                <li>وقتی الگو درست شد، پیام سبز <b>«✅ الگو درست است»</b> ظاهر می‌شود</li>
+                <li>حالا روی دکمه‌ی <b>📝 ثبت نظرات</b> در فوتر کلیک کن</li>
+            </ol>
+        </div>
+
+        <!-- ۲ -->
+        <div class="guide-section">
+            <div class="guide-section-head">
+                <span class="guide-number">۲</span>
+                <h2>✨ ثبت‌نام و ورود</h2>
+            </div>
+            <p>در صفحه‌ی ورود، دو تب داری: <b>ورود</b> و <b>ثبت‌نام</b>.</p>
+            <h3>ثبت‌نام کاربر جدید:</h3>
+            <ol>
+                <li>تب <b>✨ ثبت‌نام</b> را انتخاب کن</li>
+                <li>یک نام کاربری منحصربه‌فرد انتخاب کن (۲ تا ۳۰ کاراکتر)</li>
+                <li>پسورد بگذار (حداقل ۴ کاراکتر)</li>
+                <li>یک <b>کلید امنیتی</b> هم بگذار (اختیاری ولی توصیه‌شده)</li>
+                <li>روی <b>ثبت‌نام و ورود</b> کلیک کن</li>
+            </ol>
+            <div class="guide-note">
+                🔑 <b>کلید امنیتی چیه؟</b> اگه پسوردت را فراموش کردی، با این کلید می‌توانی پسورد جدید بسازی.
+            </div>
+        </div>
+
+        <!-- ۳ -->
+        <div class="guide-section">
+            <div class="guide-section-head">
+                <span class="guide-number">۳</span>
+                <h2>💬 شروع چت با یک کاربر</h2>
+            </div>
+            <ol>
+                <li>بالای صفحه، یک کادر جست‌وجو هست</li>
+                <li>نام کاربری طرف مقابل را وارد کن</li>
+                <li>روی نتیجه کلیک کن تا وارد چت شوی</li>
+            </ol>
+            <div class="guide-note">
+                💡 اگر نام کاربر را نمی‌دانی، کادر را خالی بگذار تا کاربران اخیر را نشان دهد.
+            </div>
+        </div>
+
+        <!-- ۴ -->
+        <div class="guide-section">
+            <div class="guide-section-head">
+                <span class="guide-number">۴</span>
+                <h2>📤 ارسال پیام</h2>
+            </div>
+            <h3>📝 پیام متنی</h3>
+            <p>پیامت را در کادر پایین بنویس و Enter بزن (یا دکمه‌ی ➤).</p>
+            <h3>🖼️ عکس یا ویدیو</h3>
+            <ol>
+                <li>روی 📎 کلیک کن</li>
+                <li>عکس یا ویدیو انتخاب کن</li>
+                <li>یک پنجره‌ی پیش‌نمایش باز می‌شود</li>
+                <li>اگر خواستی <b>کپشن</b> زیر عکس بنویس</li>
+                <li>روی ➤ سبز کلیک کن</li>
+            </ol>
+            <div class="guide-note">⚠️ حداکثر حجم فایل: ۲۵ مگابایت</div>
+        </div>
+
+        <!-- ۵ -->
+        <div class="guide-section">
+            <div class="guide-section-head">
+                <span class="guide-number">۵</span>
+                <h2>↩️ ریپلای کردن پیام</h2>
+            </div>
+            <p>چند راه برای ریپلای داری:</p>
+            <div class="guide-methods">
+                <div class="guide-method">
+                    <div class="guide-method-icon">🖱️</div>
+                    <h4>راست‌کلیک</h4>
+                    <p>روی پیام راست‌کلیک کن → <b>پاسخ</b></p>
+                </div>
+                <div class="guide-method">
+                    <div class="guide-method-icon">👆</div>
+                    <h4>Long-press</h4>
+                    <p>۰.۵ ثانیه روی پیام نگه دار (موبایل)</p>
+                </div>
+                <div class="guide-method">
+                    <div class="guide-method-icon">👈👉</div>
+                    <h4>Swipe</h4>
+                    <p>روی پیام بکش: خودت به چپ، طرف مقابل به راست</p>
+                </div>
+                <div class="guide-method">
+                    <div class="guide-method-icon">⚡</div>
+                    <h4>Double-tap</h4>
+                    <p>دو ضربه‌ی سریع روی پیام</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ۶ -->
+        <div class="guide-section">
+            <div class="guide-section-head">
+                <span class="guide-number">۶</span>
+                <h2>🎨 تنظیمات ظاهری</h2>
+            </div>
+            <p>در بالای چت، روی دکمه‌ی <b>⚙️</b> کلیک کن:</p>
+            <h3>🌈 تم رنگی</h3>
+            <p>۸ تم آماده: جنگل، نیمه‌شب، ساکورا، شفق، غروب، قهوه، یخچال، شبانه</p>
+            <h3>🖼️ بک‌گراند سفارشی</h3>
+            <ol>
+                <li>روی <b>📁 انتخاب عکس</b> کلیک کن</li>
+                <li>عکس از گالری انتخاب کن (حداکثر ۸ مگابایت)</li>
+                <li>با اسلایدر شفافیت، تیرگی پرده را تنظیم کن</li>
+            </ol>
+            <h3>🔐 تغییر پسورد</h3>
+            <p>پسورد فعلی و جدیدت را وارد کن.</p>
+        </div>
+
+        <!-- ۷ -->
+        <div class="guide-section">
+            <div class="guide-section-head">
+                <span class="guide-number">۷</span>
+                <h2>🆘 فراموشی پسورد</h2>
+            </div>
+            <ol>
+                <li>در صفحه‌ی ورود، روی <b>🔑 پسوردت را فراموش کردی؟</b> کلیک کن</li>
+                <li>نام کاربری و کلید امنیتی‌ات را وارد کن</li>
+                <li>پسورد جدید بگذار</li>
+                <li>حالا با پسورد جدید وارد شو ✅</li>
+            </ol>
+            <div class="guide-note warn">
+                ⚠️ اگر کلید امنیتی هم یادت نیست، فقط مدیر سایت می‌تواند کمکت کند.
+            </div>
+        </div>
+
+        <!-- ۸ -->
+        <div class="guide-section">
+            <div class="guide-section-head">
+                <span class="guide-number">۸</span>
+                <h2>🌿 بخش گیاهان</h2>
+            </div>
+            <p>در صفحه‌ی <a href="{% url 'plants:list' %}">گیاهان</a> می‌توانی:</p>
+            <ul>
+                <li>با جست‌وجو، گیاه مورد نظرت را پیدا کنی</li>
+                <li>روی هر کارت کلیک کنی و اطلاعات کامل را ببینی</li>
+            </ul>
+        </div>
+
+        <div class="guide-cta">
+            <h3>آماده‌ای؟ 🚀</h3>
+            <p>برو به صفحه‌ی اصلی، الگو را وارد کن و شروع کن!</p>
+            <a href="{% url 'plants:landing' %}" class="btn btn-primary">
+                🏠 رفتن به صفحه‌ی اصلی
+            </a>
+        </div>
+
+    </div>
+</section>

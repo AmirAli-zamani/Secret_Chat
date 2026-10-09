@@ -1,0 +1,509 @@
+/* ============================================================
+   گلبو | پنل ادمین سفارشی
+   ============================================================ */
+
+:root {
+    --primary: #15803d;
+    --primary-fg: #ffffff;
+    --secondary: #14532d;
+    --accent: #22c55e;
+    --link-fg: #15803d;
+    --link-hover-color: #14532d;
+    --link-selected-fg: #14532d;
+    --button-bg: #15803d;
+    --button-fg: #ffffff;
+    --button-hover-bg: #14532d;
+    --default-button-bg: #22c55e;
+    --default-button-hover-bg: #16a34a;
+    --header-bg: #14532d;
+    --header-color: #ffffff;
+    --header-link-color: #ffffff;
+    --breadcrumbs-bg: #15803d;
+    --breadcrumbs-fg: #ffffff;
+    --breadcrumbs-link-fg: #ffffff;
+    --object-tools-bg: #15803d;
+    --object-tools-hover-bg: #14532d;
+    --close-button-bg: #6b7280;
+    --close-button-hover-bg: #4b5563;
+}
+
+body,
+input, select, textarea, button {
+    font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif !important;
+}
+
+#header {
+    background: linear-gradient(135deg, #14532d 0%, #15803d 100%);
+    padding: 14px 24px;
+    box-shadow: 0 4px 20px -8px rgba(20, 83, 45, .4);
+}
+
+#branding h1 {
+    margin: 0;
+    font-weight: 900;
+}
+
+#branding h1 a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+}
+
+.brand-emoji { font-size: 1.6rem; }
+.brand-text { font-size: 1.4rem; font-weight: 900; letter-spacing: -.5px; }
+.brand-sub {
+    font-size: .8rem;
+    background: rgba(255,255,255,.2);
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-weight: 500;
+    margin-right: auto;
+}
+
+/* ===== Dashboard ===== */
+.gp-dashboard {
+    padding: 20px 8px 40px;
+}
+
+.gp-dash-hero {
+    position: relative;
+    background: linear-gradient(135deg, #ecfdf5 0%, #dcfce7 100%);
+    border-radius: 20px;
+    padding: 32px 28px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    border: 1px solid #bbf7d0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.gp-dash-hero-text h2 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #14532d;
+    margin: 0 0 8px;
+}
+
+.gp-dash-hero-text p {
+    color: #166534;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.gp-dash-hero-art {
+    font-size: 5rem;
+    filter: drop-shadow(0 10px 20px rgba(20,83,45,.25));
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* ===== Stats ===== */
+.gp-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.gp-stat-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+
+.gp-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px -12px rgba(20,83,45,.25);
+}
+
+.gp-stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.gp-stat-value {
+    font-size: 1.75rem;
+    font-weight: 900;
+    color: #14532d;
+    line-height: 1.1;
+}
+
+.gp-stat-label {
+    color: #6b7280;
+    font-size: .9rem;
+    margin-top: 4px;
+}
+
+/* ===== Sections ===== */
+.gp-section {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.gp-section-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #14532d;
+    margin: 0 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ===== Quick Actions ===== */
+.gp-action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+}
+
+.gp-action-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: #f9fafb;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 14px;
+    transition: all .2s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.gp-action-card:hover {
+    background: #ecfdf5;
+    border-color: #86efac;
+    transform: translateY(-2px);
+    color: inherit;
+}
+
+.gp-action-icon {
+    font-size: 1.6rem;
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: #fff;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,.05);
+    flex-shrink: 0;
+}
+
+.gp-action-title {
+    font-weight: 700;
+    color: #14532d;
+    font-size: .98rem;
+}
+
+.gp-action-desc {
+    color: #6b7280;
+    font-size: .82rem;
+    margin-top: 2px;
+}
+
+/* ===== Recent Table ===== */
+.gp-table-wrap { overflow-x: auto; border-radius: 12px; }
+
+.gp-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.gp-table th {
+    background: #f3f4f6;
+    padding: 12px 14px;
+    text-align: right;
+    font-weight: 700;
+    color: #374151;
+    font-size: .88rem;
+    white-space: nowrap;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.gp-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: .92rem;
+}
+
+.gp-table tr:last-child td { border-bottom: none; }
+.gp-table tr:hover td { background: #f9fafb; }
+
+.gp-row-thumb {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    object-fit: cover;
+    display: block;
+}
+
+.gp-row-thumb-empty {
+    background: #dcfce7;
+    display: grid;
+    place-items: center;
+    font-size: 1.2rem;
+}
+
+.gp-thumb {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
+}
+
+.gp-thumb-empty {
+    background: #dcfce7;
+    display: grid;
+    place-items: center;
+    font-size: 1.4rem;
+}
+
+.gp-preview-img {
+    max-width: 200px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px -12px rgba(0,0,0,.3);
+}
+
+.gp-muted { color: #9ca3af; }
+
+/* ===== Badges ===== */
+.gp-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.gp-badge-green  { background: #dcfce7; color: #15803d; }
+.gp-badge-orange { background: #fef3c7; color: #b45309; }
+.gp-badge-red    { background: #fee2e2; color: #b91c1c; }
+.gp-badge-blue   { background: #dbeafe; color: #1d4ed8; }
+.gp-badge-purple { background: #f3e8ff; color: #7c3aed; }
+.gp-badge-gray   { background: #f3f4f6; color: #4b5563; }
+
+/* ===== Pattern Mini (نمایش الگو در جدول) ===== */
+.gp-pattern-mini {
+    display: inline-flex;
+    gap: 3px;
+    direction: ltr;
+}
+
+.gp-pattern-mini b {
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    background: #dcfce7;
+    color: #14532d;
+    border-radius: 6px;
+    font-size: .78rem;
+    font-weight: 800;
+}
+
+/* ============================================================
+   Pattern Picker Widget (انتخابگر بصری الگو)
+   ============================================================ */
+
+.gp-picker {
+    background: #f9fafb;
+    border: 1.5px dashed #d1d5db;
+    border-radius: 14px;
+    padding: 20px;
+    margin: 8px 0;
+}
+
+.gp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    max-width: 340px;
+    margin: 0 auto 16px;
+}
+
+.gp-btn {
+    width: 84px;
+    height: 84px;
+    border-radius: 20px;
+    background: #fff;
+    border: 2px solid #e5e7eb;
+    font-size: 2rem;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: all .18s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,.04);
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.gp-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px -8px rgba(20,83,45,.3);
+    border-color: #86efac;
+}
+
+.gp-btn:active { transform: scale(.94); }
+
+.gp-btn.selected {
+    background: #d1d5db;
+    filter: grayscale(70%);
+    border-color: #9ca3af;
+    box-shadow: inset 0 4px 10px rgba(0,0,0,.12);
+    transform: translateY(0) scale(.96);
+}
+
+.gp-hint {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .88rem;
+    color: #6b7280;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.gp-count b {
+    color: #15803d;
+    font-size: 1rem;
+    padding: 0 4px;
+}
+
+/* ===== Empty State ===== */
+.gp-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6b7280;
+}
+
+.gp-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    opacity: .6;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .gp-dash-hero { flex-direction: column; text-align: center; }
+    .gp-dash-hero-art { font-size: 3.5rem; }
+    .gp-dash-hero-text h2 { font-size: 1.25rem; }
+    .gp-btn { width: 70px; height: 70px; font-size: 1.7rem; }
+}
+
+/* ===== Django admin tweaks ===== */
+.module h2, .module caption, .inline-group h2 {
+    background: linear-gradient(135deg, #15803d, #16a34a);
+    font-weight: 700;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: #15803d;
+    font-weight: 700;
+    border-radius: 8px;
+}
+
+.button:hover, input[type=submit]:hover, a.button:hover {
+    background: #14532d;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: #22c55e;
+}
+
+.button.default:hover, input[type=submit].default:hover {
+    background: #16a34a;
+}
+
+#nav-sidebar .current-app .section:link,
+#nav-sidebar .current-app .section:visited {
+    color: #14532d;
+}
+
+#nav-sidebar .current-model {
+    background: #dcfce7;
+}
+
+/* ============================================================
+   حذف دکمه‌ی تغییر تم (Dark Mode Toggle)
+   ما دارک‌مود رو ساپورت نمی‌کنیم، پس دکمه رو مخفی می‌کنیم
+   ============================================================ */
+
+.theme-toggle,
+button[class*="theme-toggle"],
+#theme-toggle {
+    display: none !important;
+}
+
+/* همه‌ی SVGهای توی هدر که رندر نمی‌شن رو مخفی کن */
+#header svg:not(.gp-keep-svg) {
+    display: none !important;
+}
+
+/* دکمه‌ها و لینک‌های user-tools رو درست کن */
+#user-tools {
+    font-size: .88rem;
+    color: #fff;
+    padding: 10px 16px;
+}
+
+#user-tools a {
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,.4);
+    padding-bottom: 2px;
+    transition: all .2s;
+}
+
+#user-tools a:hover {
+    color: #dcfce7;
+    border-bottom-color: #dcfce7;
+}
+
+/* استایل تم روشن برای همه چیز */
+html[data-theme="dark"],
+html[data-theme="auto"] {
+    /* هرچی user آورد، ما روشن نگه می‌داریم */
+}
+
+/* اگه به هر دلیلی کاربر دارک‌مود رو انتخاب کرد، به روشن برگردون */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: light !important;
+    }
+}
+
+/* SVGهای توی breadcrumbs (آیکون خونه) هم اگه خراب بود */
+.breadcrumbs svg {
+    display: none !important;
+}
+
+/* آیکون‌های object-tools و action icons رو نگه دار */
+.object-tools a::before,
+.addlink::before,
+.changelink::before,
+.deletelink::before {
+    display: inline-block !important;
+}

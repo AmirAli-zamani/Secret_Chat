@@ -1,0 +1,36 @@
+{% if peers %}
+    {% for item in peers %}
+    <a href="{% url 'plants:chat_room' item.peer.username %}" class="chat-peer-item">
+        <div class="chat-avatar sm">{{ item.peer.username|first|upper }}</div>
+        <div class="chat-peer-info">
+            <div class="chat-peer-top">
+                <span class="chat-peer-name">{{ item.peer.username }}</span>
+                {% if item.last %}
+                <span class="chat-peer-time">{{ item.last.created_at|time:"H:i" }}</span>
+                {% endif %}
+            </div>
+            <div class="chat-peer-bottom">
+                <span class="chat-peer-preview">
+                    {% if item.last %}
+                        {% if item.last.msg_type == 'text' %}{{ item.last.content|truncatechars:35 }}
+                        {% elif item.last.msg_type == 'image' %}🖼️ تصویر
+                        {% elif item.last.msg_type == 'video' %}🎬 ویدیو
+                        {% endif %}
+                    {% else %}
+                        شروع گفتگو...
+                    {% endif %}
+                </span>
+                {% if item.unread %}
+                <span class="chat-unread">{{ item.unread }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+{% else %}
+    <div class="chat-empty-peers">
+        <div class="chat-empty-icon">💬</div>
+        <p>هنوز با کسی چت نکردی.</p>
+        <p class="small">از کادر بالا یه ID وارد کن یا جست‌وجو کن.</p>
+    </div>
+{% endif %}

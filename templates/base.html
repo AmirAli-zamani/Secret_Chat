@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>{% block title %}گلبو | دنیای گل و گیاه{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="{% url 'plants:landing' %}" class="logo">🌿 گلبو</a>
+            <nav class="nav">
+                <a href="{% url 'plants:landing' %}">خانه</a>
+                <a href="{% url 'plants:list' %}">گیاهان</a>
+                <a href="/admin/" class="nav-cta">ورود مدیر</a>
+            </nav>
+        </div>
+    </header>
+
+    {% if messages %}
+    <div class="messages-wrap">
+        <div class="container">
+            {% for m in messages %}
+            <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>
+                🌱 گلبو — همه چیز درباره‌ی گل و گیاه — ۱۴۰۴
+                <a href="{% url 'plants:guide' %}" style="margin-right:14px;color:#bbf7d0;text-decoration:none;border-bottom:1px dashed #86efac;font-weight:600;">📖 راهنما</a>
+            </p>
+
+            <div class="footer-right">
+                <a href="{% url 'plants:comment' %}" class="btn-comment" id="commentBtn">
+                    📝 ثبت نظرات
+                </a>
+                <div id="unlockBadge" class="unlock-badge-footer" hidden>
+                    ✅ الگو درست است — حالا می‌تونی نظر بدی
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="{% static 'js/auto_hide_messages.js' %}" defer></script>
+</body>
+</html>

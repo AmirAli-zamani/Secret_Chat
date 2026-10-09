@@ -1,0 +1,50 @@
+{% extends 'chat_base.html' %}
+{% load static %}
+{% block title %}فراموشی رمز | گلبو{% endblock %}
+
+{% block content %}
+<section class="chat-setup-page">
+    <div class="chat-setup-card chat-auth-card">
+
+        <div class="chat-auth-header">
+            <div class="chat-setup-emoji">🔑</div>
+            <h1>فراموشی رمز</h1>
+            <p>نام کاربری و کلید امنیتی‌ت رو وارد کن تا پسورد جدید بذاری.</p>
+        </div>
+
+        <form method="post" action="{% url 'plants:chat_forgot_reset' %}"
+              class="chat-setup-form" autocomplete="off">
+            {% csrf_token %}
+
+            <label for="forgot_username">نام کاربری</label>
+            <input type="text" id="forgot_username" name="username"
+                   placeholder="نام کاربری‌ت"
+                   maxlength="30" required autofocus autocomplete="off">
+
+            <label for="forgot_key" style="margin-top:14px">کلید امنیتی</label>
+            <input type="text" id="forgot_key" name="security_key"
+                   placeholder="همون کلیدی که موقع ثبت‌نام نوشتی"
+                   maxlength="100" required autocomplete="off">
+            <small>اگه کلید یادت نیست، با مدیر سایت تماس بگیر</small>
+
+            <label for="forgot_new_password" style="margin-top:16px">پسورد جدید</label>
+            <input type="password" id="forgot_new_password" name="new_password"
+                   placeholder="حداقل ۴ کاراکتر"
+                   minlength="4" maxlength="100" required
+                   autocomplete="new-password">
+
+            <label for="forgot_new_password2" style="margin-top:14px">تکرار پسورد جدید</label>
+            <input type="password" id="forgot_new_password2" name="new_password2"
+                   placeholder="دوباره بنویس"
+                   minlength="4" maxlength="100" required
+                   autocomplete="new-password">
+
+            <div class="chat-setup-actions">
+                <a href="{% url 'plants:chat_auth' %}" class="btn-back">بازگشت</a>
+                <button type="submit" class="btn-primary-chat">تغییر پسورد 🔄</button>
+            </div>
+        </form>
+
+    </div>
+</section>
+{% endblock %}
